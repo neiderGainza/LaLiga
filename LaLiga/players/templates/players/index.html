@@ -1,0 +1,14 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'players/css/players_list.css' %}">
+
+<ul class="players_list">
+    {% for player in players_list %}
+        <li class="players_item">
+            <span>{{ player.name }}</span>
+            <span>{{ player.age}}</span>
+        </li>
+    {% endfor %}
+</ul>
+
+<script>
+    
