@@ -1,8 +1,10 @@
 from django.db import models
 from players import models as players_models
 
+
 class Team(models.Model):
     name = models.CharField(primary_key=True, max_length = 200)
+    #picture = models.ImageField()
 
     capitan = models.ForeignKey(players_models.Players, on_delete=models.SET_NULL,null=True, blank=True)
     games = models.ManyToManyField(to = 'self', through="Game")
@@ -28,34 +30,37 @@ class Game(models.Model):
         return partido[4:]
 
 
-class Base(models.Model):
+class Base_Type_1:
     action_name = " nothing "
-    
+    bridge1 = " a "
 
     player = models.ForeignKey( players_models.Players, on_delete = models.CASCADE)
     game   = models.ForeignKey( Game, on_delete = models.CASCADE)
     time   = models.TimeField()
 
     def __str__(self):
-        #consulta sobre nombre del jugador
-        name = str( self.player )
-        game = str( self.game ) 
+        return self.action_name + bridge1 + self.player.name 
 
-        return self.action_name + " " + name + " " + game
 
-class Goal(Base):
+
+class Goal(models.Model, Base_Type_1):
     action_name = "Gol"
+    bridge1 = " de "
 
-class Yelow_Card(Base):
+class Yelow_Card(models.Model,Base_Type_1):
     action_name = "Tarjeta Amarilla"
 
-class Red_Car(models.Model):
+class Red_Car(models.Model, Base_Type_1):
     action_name = "Tarjeta Roja"
 
 
 
-class Assistance(models.Model):
-    pass
+class Assistance(models.Model, Base_Type_1):
+    gol = models.ForeignKey(Goal, on_delete = models.CASCADE)
+
+    def __str__(self):
+        return "Asistencia de " + self.player.name + " para " + self.gol.player.name
+
 
 class Change(models.Model):
     pass

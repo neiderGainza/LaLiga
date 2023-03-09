@@ -5,7 +5,8 @@ from django.db import models
 class Players(models.Model):
     id   = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=200)
-    
+    #picture = models.ImageField() 
+
     teams = models.ManyToManyField(to = 'teams.Team', through= 'Belong')
     
     registration_date = models.DateField(auto_now=True)
