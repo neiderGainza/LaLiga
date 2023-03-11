@@ -4,7 +4,7 @@ from players import models as players_models
 
 class Team(models.Model):
     name = models.CharField(primary_key=True, max_length = 200)
-    #picture = models.ImageField()
+    picture = models.ImageField()
 
     capitan = models.ForeignKey(players_models.Players, on_delete=models.SET_NULL,null=True, blank=True)
     games = models.ManyToManyField(to = 'self', through="Game")
@@ -15,11 +15,15 @@ class Team(models.Model):
 
 class Game(models.Model):
     # Django no acepta que desde un modelo se tengan dos llaves foraneas al mismo modelo
-    
+    status = models.CharField(max_length=1) # 'e' excecution 'y' yet 'f' finished
+
     teams = models.ManyToManyField('Team')
 
     date  = models.DateField(auto_now=True)
     time  = models.TimeField(auto_now=True)
+    
+    #tournament = models.ForeignKey('tournaments.Tournament', on_delete = models.CASCADE)
+
 
     def __str__(self):
         partido = ""
@@ -50,7 +54,7 @@ class Goal(models.Model, Base_Type_1):
 class Yelow_Card(models.Model,Base_Type_1):
     action_name = "Tarjeta Amarilla"
 
-class Red_Car(models.Model, Base_Type_1):
+class Red_Card(models.Model, Base_Type_1):
     action_name = "Tarjeta Roja"
 
 

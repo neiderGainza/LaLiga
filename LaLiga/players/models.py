@@ -1,11 +1,10 @@
 from django.db import models
 # Create your models here.
 
-
 class Players(models.Model):
     id   = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=200)
-    #picture = models.ImageField() 
+    picture = models.ImageField() 
 
     teams = models.ManyToManyField(to = 'teams.Team', through= 'Belong')
     
@@ -17,7 +16,6 @@ class Players(models.Model):
         return self.name
 
 
-
 class Belong(models.Model):
     player = models.ForeignKey(to = Players, on_delete = models.CASCADE)
     team   = models.ForeignKey(to = 'teams.Team', on_delete = models.CASCADE)
@@ -27,3 +25,10 @@ class Belong(models.Model):
 
     def __str__(self):
         return self.player + " belongs to " + self.team + " since " + self.since + " until " + self.until
+
+
+
+class Player_Num(models.Model):
+    player_num = models.IntegerField()
+    
+    who = models.ForeignKey(Belong, on_delete = models.CASCADE)
